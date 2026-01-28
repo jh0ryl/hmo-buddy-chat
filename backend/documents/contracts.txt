@@ -1,0 +1,38 @@
+Provider Service Agreement – General Hospitals
+
+Contract ID: HMO-CON-2024-001
+Effective Date: January 1, 2024
+Expiration Date: December 31, 2026
+
+1. Parties
+- This agreement is entered into between ABC Health Maintenance Organization (HMO) and MetroCare General Hospital, an accredited tertiary hospital licensed by the Department of Health.
+
+2. Scope of Services
+The Hospital agrees to provide covered medical services to eligible HMO Members, including:
+ - Inpatient hospitalization
+ - Emergency care
+ - Outpatient diagnostic services
+ - Surgical procedures covered under the Member’s plan
+
+3. Covered Services
+ - Room and board (ward, semi-private, private based on plan)
+ - Professional fees (attending physician, surgeon, anesthesiologist)
+ - Laboratory and diagnostic imaging
+ - Medications administered during confinement
+
+4. Excluded Services
+ - Experimental or investigational treatments
+ - Cosmetic procedures
+ - Non-medically necessary services
+ - Services not pre-authorized (except emergencies)
+
+5. Billing and Claims
+ - Hospital shall bill ABC HMO directly
+ - Claims must be submitted within 60 days from discharge
+ - Late submissions may be denied
+
+6. Pre-Authorization
+- All non-emergency admissions and procedures require prior approval through the HMO Utilization Management Unit.
+
+7. Termination
+- Either party may terminate this agreement with 90 days written notice.

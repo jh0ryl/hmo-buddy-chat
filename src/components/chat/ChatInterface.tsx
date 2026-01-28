@@ -8,35 +8,35 @@ import { useChat } from '@/hooks/useChat';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 export const ChatInterface = () => {
-  const { messages, isLoading, sendMessage, clearChat } = useChat();
-  const scrollRef = useRef<HTMLDivElement>(null);
+    const { messages, isLoading, sendMessage, clearChat } = useChat();
+    const scrollRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  }, [messages, isLoading]);
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+    }, [messages, isLoading]);
 
-  return (
-    <div className="flex h-screen flex-col bg-background">
-      <ChatHeader onClearChat={messages.length > 0 ? clearChat : undefined} />
-      
-      <ScrollArea className="flex-1" ref={scrollRef}>
-        <div className="max-w-4xl mx-auto">
-          {messages.length === 0 ? (
-            <EmptyState />
-          ) : (
-            <div className="py-4">
-              {messages.map((message) => (
-                <ChatMessage key={message.id} message={message} />
-              ))}
-              {isLoading && <TypingIndicator />}
-            </div>
-          )}
+    return (
+        <div className="flex h-screen flex-col bg-background">
+            <ChatHeader onClearChat={messages.length > 0 ? clearChat : undefined} />
+
+            <ScrollArea className="flex-1" ref={scrollRef}>
+                <div className="max-w-4xl mx-auto">
+                    {messages.length === 0 ? (
+                        <EmptyState />
+                    ) : (
+                        <div className="py-4">
+                            {messages.map((message) => (
+                                <ChatMessage key={message.id} message={message} />
+                            ))}
+                            {isLoading && <TypingIndicator />}
+                        </div>
+                    )}
+                </div>
+            </ScrollArea>
+
+            <ChatInput onSend={sendMessage} isLoading={isLoading} />
         </div>
-      </ScrollArea>
-
-      <ChatInput onSend={sendMessage} isLoading={isLoading} />
-    </div>
-  );
+    );
 };

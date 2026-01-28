@@ -54,11 +54,70 @@ npm run dev
 
 This project is built with:
 
+### Frontend
 - Vite
 - TypeScript
 - React
 - shadcn-ui
 - Tailwind CSS
+
+### Backend (RAG System)
+- **Python FastAPI** - High-performance API server
+- **Ollama** - Local LLM runtime
+  - Llama 3.2 - Language model
+  - mxbai-embed-large - Embeddings model
+- **ChromaDB** - Vector database for semantic search
+- **RAG Pipeline** - Document processing and retrieval
+
+## 🚀 Running the Application
+
+This app requires both a **frontend** and **backend** to run.
+
+### Quick Start
+
+1. **Install and setup Ollama:**
+   ```bash
+   # Download from https://ollama.ai
+   
+   # Pull models
+   ollama pull llama3.2
+   ollama pull mxbai-embed-large
+   ```
+
+2. **Setup backend:**
+   ```bash
+   cd backend
+   # Run automated setup (Windows)
+   setup.bat
+   
+   # Or manual setup
+   pip install -r requirements.txt
+   ```
+
+3. **Start backend server:**
+   ```bash
+   cd backend
+   # Easy start (Windows)
+   start_backend.bat
+   
+   # Or manual start
+   python -m uvicorn main:app --reload --port 8000
+   ```
+
+4. **Start frontend (in a new terminal):**
+   ```bash
+   npm run dev
+   ```
+
+5. **Access the application:**
+   - Frontend: http://localhost:8080
+   - Backend API: http://localhost:8000
+   - API Docs: http://localhost:8000/docs
+
+### Full Documentation
+
+See [backend/README.md](backend/README.md) for detailed setup instructions, API documentation, and troubleshooting.
+
 
 ## How can I deploy this project?
 

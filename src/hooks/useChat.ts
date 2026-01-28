@@ -2,7 +2,9 @@ import { useState, useCallback } from 'react';
 import { Message } from '@/types/chat';
 
 // Configure your Python backend endpoint here
-const API_ENDPOINT = 'http://localhost:8000/chat'; // Change this to your Python API URL
+const API_ENDPOINT = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/chat`
+  : 'http://localhost:8000/api/chat';
 
 interface UseChatOptions {
   apiEndpoint?: string;
@@ -35,7 +37,9 @@ export const useChat = (options?: UseChatOptions) => {
         },
         body: JSON.stringify({
           message: content,
-          history: messages.map((m) => ({
+          use_context: true, // Enable RAG
+          stream: false,
+          conversation_history: messages.map((m) => ({
             role: m.role,
             content: m.content,
           })),
@@ -47,7 +51,7 @@ export const useChat = (options?: UseChatOptions) => {
       }
 
       const data = await response.json();
-      
+
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
@@ -59,12 +63,12 @@ export const useChat = (options?: UseChatOptions) => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to send message';
       setError(errorMessage);
-      
-      // Add error message as assistant response for demo purposes
+
+      // Add error message as assistant response
       const errorResponse: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: `⚠️ Could not connect to the backend. Please ensure your Python server is running at ${endpoint}\n\nTo set up your Python backend, create a simple FastAPI server:\n\n\`\`\`python\nfrom fastapi import FastAPI\nfrom fastapi.middleware.cors import CORSMiddleware\nfrom pydantic import BaseModel\n\napp = FastAPI()\napp.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])\n\nclass ChatRequest(BaseModel):\n    message: str\n    history: list = []\n\n@app.post("/chat")\nasync def chat(request: ChatRequest):\n    # Add your LLM logic here\n    return {"response": "Hello from your HMO assistant!"}\n\`\`\``,
+        content: `⚠️ Could not connect to the backend at ${endpoint}\n\nPlease ensure:\n1. Your Python backend is running: \`cd backend && start_backend.bat\`\n2. Ollama is running with models: \`ollama list\`\n3. Backend is accessible at: http://localhost:8000\n\nCheck backend/README.md for full setup instructions.`,
         timestamp: new Date(),
       };
       setMessages((prev) => [...prev, errorResponse]);

@@ -1,0 +1,27 @@
+Standard Operating Procedures (SOP)
+
+SOP-001: Member Verification
+
+ - Receive member ID and valid government ID
+ - Verify eligibility in HMO system
+ - Confirm coverage and plan type
+
+SOP-002: Pre-Authorization Processing
+
+ - Receive request from hospital/clinic
+ - Validate diagnosis and procedure
+ - Check against policy coverage
+ - Approve, deny, or escalate to Medical Director
+
+SOP-003: Claims Processing
+
+ - Receive claim documents
+ - Validate completeness
+ - Match services with coverage policy
+ - Approve payment or issue denial reason
+
+SOP-004: Complaints Handling
+
+ - Log complaint in CRM
+ - Acknowledge within 24 hours
+ - Resolve within 5 business days
