@@ -1,132 +1,382 @@
-# Welcome to your Lovable project
+# HMO RAG System 🏥
 
-## Project info
+A Retrieval-Augmented Generation (RAG) system for HMO documentation that uses Ollama for local LLM inference and provides intelligent responses based on your organization's documents.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## How can I edit this code?
+## 🌟 Features
 
-There are several ways of editing your application.
+- **📚 Document-Based Responses**: Answers queries using your HMO documentation
+- **🔍 Smart Retrieval**: Intelligent context retrieval with similarity scoring
+- **💬 Conversational AI**: Maintains context across multiple turns
+- **🚀 Fast & Local**: Runs locally using Ollama (no API costs)
+- **🔧 Easy Setup**: Simple installation with minimal dependencies
+- **🎯 Accurate**: Enhanced prompt engineering for better context utilization
+- **📊 Debug Tools**: Built-in diagnostics and testing utilities
 
-**Use Lovable**
+## 🏗️ Architecture
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+┌─────────────┐
+│   FastAPI   │ ← REST API Server
+│   Backend   │
+└──────┬──────┘
+       │
+       ├─────────────────┐
+       │                 │
+┌──────▼──────┐   ┌─────▼─────┐
+│  RAG Service │   │  Vector   │
+│   (Ollama)   │   │   Store   │
+└──────┬──────┘   └─────┬─────┘
+       │                 │
+       └─────────┬───────┘
+                 │
+         ┌───────▼────────┐
+         │   Documents    │
+         │  (HMO Files)   │
+         └────────────────┘
 ```
 
-**Edit a file directly in GitHub**
+## 📋 Prerequisites
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- Python 3.8 or higher
+- [Ollama](https://ollama.ai/) installed and running
+- 4GB+ RAM recommended
+- Windows, macOS, or Linux
 
-**Use GitHub Codespaces**
+## 🚀 Quick Start
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### 1. Clone the Repository
 
-## What technologies are used for this project?
+```bash
+git clone https://github.com/yourusername/hmo-rag-system.git
+cd hmo-rag-system
+```
 
-This project is built with:
+### 2. Install Dependencies
 
-### Frontend
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+**Option A: Simple Installation (No C++ build tools required)**
+```bash
+pip install -r requirements_simple.txt
+```
 
-### Backend (RAG System)
-- **Python FastAPI** - High-performance API server
-- **Ollama** - Local LLM runtime
-  - Llama 3.2 - Language model
-  - mxbai-embed-large - Embeddings model
-- **ChromaDB** - Vector database for semantic search
-- **RAG Pipeline** - Document processing and retrieval
+**Option B: Full Installation (with ChromaDB)**
+```bash
+pip install -r requirements.txt
+```
 
-## 🚀 Running the Application
+### 3. Install Ollama Models
 
-This app requires both a **frontend** and **backend** to run.
+```bash
+ollama pull llama3.2
+ollama pull mxbai-embed-large
+```
 
-### Quick Start
+### 4. Add Your Documents
 
-1. **Install and setup Ollama:**
-   ```bash
-   # Download from https://ollama.ai
-   
-   # Pull models
-   ollama pull llama3.2
-   ollama pull mxbai-embed-large
-   ```
+Place your HMO documents (`.txt` or `.md` files) in the `backend/documents/` folder:
 
-2. **Setup backend:**
-   ```bash
-   cd backend
-   # Run automated setup (Windows)
-   setup.bat
-   
-   # Or manual setup
-   pip install -r requirements.txt
-   ```
+```
+backend/documents/
+├── policies.txt
+├── faqs.txt
+├── contracts.txt
+├── sops.txt
+├── appointment.txt
+└── sample_hmo_info.txt
+```
 
-3. **Start backend server:**
-   ```bash
-   cd backend
-   # Easy start (Windows)
-   start_backend.bat
-   
-   # Or manual start
-   python -m uvicorn main:app --reload --port 8000
-   ```
+### 5. Setup the System
 
-4. **Start frontend (in a new terminal):**
-   ```bash
-   npm run dev
-   ```
+```bash
+cd backend
+python setup_rag.py
+```
 
-5. **Access the application:**
-   - Frontend: http://localhost:8080
-   - Backend API: http://localhost:8000
-   - API Docs: http://localhost:8000/docs
+This will:
+- Check your project structure
+- Load and chunk your documents
+- Create embeddings
+- Test the system
 
-### Full Documentation
+### 6. Start the Server
 
-See [backend/README.md](backend/README.md) for detailed setup instructions, API documentation, and troubleshooting.
+```bash
+python main.py
+```
+
+The API will be available at `http://localhost:8000`
+
+### 7. Test It!
+
+```bash
+# Check status
+curl http://localhost:8000/status
+
+# Query the system
+curl -X POST http://localhost:8000/query \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What are the HMO benefits?"}'
+```
+
+## 📁 Project Structure
+
+```
+hmo-rag-system/
+├── backend/
+│   ├── main.py                      # FastAPI server
+│   ├── improved_rag_service.py      # Enhanced RAG service
+│   ├── vector_store.py              # Vector storage (Simple or ChromaDB)
+│   ├── load_documents.py            # Document loader with chunking
+│   ├── setup_rag.py                 # Setup script
+│   ├── quick_test.py                # Quick testing
+│   ├── diagnose_rag.py             # Diagnostic tools
+│   ├── example_usage.py            # Usage examples
+│   ├── documents/                   # Your HMO documents
+│   │   ├── policies.txt
+│   │   ├── faqs.txt
+│   │   └── ...
+│   └── simple_vector_data/          # Vector database
+├── src/                             # Frontend (Next.js/React)
+│   ├── components/
+│   ├── pages/
+│   └── services/
+├── requirements.txt                 # Full dependencies
+├── requirements_simple.txt          # Minimal dependencies
+├── README.md                        # This file
+```
+
+## 🔌 API Endpoints
+
+### GET `/status`
+Get system status and document count.
+
+**Response:**
+```json
+{
+  "status": "operational",
+  "document_count": 42,
+  "collection_name": "hmo_documents"
+}
+```
+
+### POST `/query`
+Query the RAG system.
+
+**Request:**
+```json
+{
+  "query": "What are the coverage benefits?",
+  "use_context": true,
+  "n_context_docs": 6,
+  "min_similarity": 0.0,
+  "temperature": 0.7
+}
+```
+
+**Response:**
+```json
+{
+  "response": "Based on the HMO documentation...",
+  "contexts_used": 5
+}
+```
+
+### POST `/chat`
+Chat with conversation history.
+
+**Request:**
+```json
+{
+  "query": "How much does it cost?",
+  "conversation_history": [
+    {"role": "user", "content": "What plans are available?"},
+    {"role": "assistant", "content": "We offer..."}
+  ],
+  "use_context": true
+}
+```
+
+### GET `/contexts/{query}`
+Debug endpoint to see retrieved contexts.
+
+### GET `/debug/{query}`
+Detailed debugging information.
+
+### POST `/add-documents`
+Add documents programmatically.
+
+### DELETE `/reset`
+Reset the vector store.
+
+## 🎨 Frontend Integration
+
+### React/Next.js Example
+
+```typescript
+async function queryRAG(question: string) {
+  const response = await fetch('http://localhost:8000/query', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: question,
+      use_context: true,
+      n_context_docs: 6
+    })
+  });
+  
+  const data = await response.json();
+  return data.response;
+}
+```
+
+### With Conversation History
+
+```typescript
+const [history, setHistory] = useState([]);
+
+async function chat(message: string) {
+  const response = await fetch('http://localhost:8000/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      query: message,
+      conversation_history: history,
+      use_context: true
+    })
+  });
+  
+  const data = await response.json();
+  
+  // Update history
+  setHistory([
+    ...history,
+    { role: 'user', content: message },
+    { role: 'assistant', content: data.response }
+  ]);
+  
+  return data.response;
+}
+```
+
+## ⚙️ Configuration
+
+### Adjust Chunking Strategy
+
+Edit `load_documents.py`:
+
+```python
+loader = DocumentLoader(
+    chunk_size=1000,      # Characters per chunk
+    chunk_overlap=200     # Overlap between chunks
+)
+```
+
+### Adjust Retrieval Settings
+
+```python
+response = rag.generate_response(
+    query,
+    n_context_docs=10,    # Number of contexts to retrieve
+    min_similarity=0.3,   # Minimum similarity threshold
+    temperature=0.7       # Model temperature (0.0-1.0)
+)
+```
+
+### Use Different Models
+
+```python
+rag = ImprovedRAGService(
+    llm_model="llama3.1:8b",           # Different LLM
+    embedding_model="mxbai-embed-large" # Different embeddings
+)
+```
+
+## 🧪 Testing
+
+### Quick Test
+```bash
+python quick_test.py
+```
+
+### Full Diagnostics
+```bash
+python diagnose_rag.py
+```
+
+### Test Specific Query
+```python
+from improved_rag_service import ImprovedRAGService
+
+rag = ImprovedRAGService()
+rag.interactive_debug("Your question here")
+```
+
+## 🐛 Troubleshooting
+
+### No documents loaded
+```bash
+# Check documents folder
+ls backend/documents/
+
+# Reload documents
+cd backend
+python load_documents.py
+```
+
+### Poor responses
+- Increase `n_context_docs` (try 8-10)
+- Lower `min_similarity` (try 0.0-0.3)
+- Adjust `temperature` (lower = more focused)
+- Use a larger model (llama3.1:8b or llama2:13b)
+
+### ChromaDB installation issues (Windows)
+Use the simple vector store instead:
+```bash
+pip install -r requirements_simple.txt
+# Replace vector_store.py with simple_vector_store.py
+```
+
+## 📊 Performance Tips
+
+- **Chunk Size**: 1000-1500 characters for most documents
+- **Chunk Overlap**: 200-300 characters for context continuity
+- **Context Docs**: 6-10 for comprehensive answers
+- **Temperature**: 0.3-0.5 for factual responses, 0.7-0.9 for creative
+- **Model**: Use llama3.1:8b or larger for better accuracy
+
+## 🔒 Security
+
+- Runs completely locally (no data sent to external APIs)
+- No API keys required
+- Documents stay on your machine
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📧 Support
+
+## 🙏 Acknowledgments
+
+- [Ollama](https://ollama.ai/) - Local LLM inference
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern web framework
+- [ChromaDB](https://www.trychroma.com/) / Simple Vector Store - Vector database
+- The open-source AI community
 
 
-## How can I deploy this project?
+## ⭐ Star History
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+If you find this project helpful, please consider giving it a star!
 
-## Can I connect a custom domain to my Lovable project?
+---
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Made with ❤️ for better HMO documentation access
