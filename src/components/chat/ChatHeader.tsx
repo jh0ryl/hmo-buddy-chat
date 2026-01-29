@@ -25,6 +25,12 @@ export const ChatHeader = ({ onClearChat }: ChatHeaderProps) => {
               Clear Chat
             </Button>
           )}
+          <Button variant="outline" size="sm">
+            Log in
+          </Button>
+          <Button size="sm">
+            Sign up
+          </Button>
           <ThemeToggle />
           <Button variant="ghost" size="icon">
             <Settings className="h-5 w-5" />
