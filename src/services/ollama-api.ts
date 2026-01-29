@@ -89,9 +89,9 @@ export async function sendChatMessage(
  */
 export async function sendChatMessageStream(
   message: string,
+  onChunk: (chunk: string) => void,
   useContext: boolean = true,
-  conversationHistory?: ChatMessage[],
-  onChunk: (chunk: string) => void
+  conversationHistory?: ChatMessage[]
 ): Promise<void> {
   const response = await fetch(`${API_BASE_URL}/api/chat`, {
     method: 'POST',
