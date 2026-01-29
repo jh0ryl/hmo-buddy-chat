@@ -1,5 +1,6 @@
 import { Activity, Settings } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 interface ChatHeaderProps {
   onClearChat?: () => void;
@@ -24,6 +25,7 @@ export const ChatHeader = ({ onClearChat }: ChatHeaderProps) => {
               Clear Chat
             </Button>
           )}
+          <ThemeToggle />
           <Button variant="ghost" size="icon">
             <Settings className="h-5 w-5" />
           </Button>
